@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <!--Created:cb85b80c-f585-40ff-8bfc-12ff4d0e34a9-->
 <App xmlns="http://schemas.microsoft.com/sharepoint/2012/app/manifest"
-     Name="K2FieldSmartFormsBrowserMessagingSharePoint"
+     Name="K2 Browser Messaging"
      ProductID="{7e6ad480-3c2d-4e4e-aca4-19c8e7f82a9d}"
-     Version="1.0.0.5"
+     Version="1.0.0.9"
      SharePointMinVersion="15.0.0.0"
 >
   <Properties>
-    <Title>K2Field.SmartForms.BrowserMessaging.SharePoint</Title>
+    <Title>K2 Browser Messaging</Title>
     <StartPage>~appWebUrl/Pages/BrowserMessaging.aspx?{StandardTokens}</StartPage>
   </Properties>
 

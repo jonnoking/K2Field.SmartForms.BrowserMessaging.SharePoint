@@ -90,7 +90,7 @@
 
     function parseMessage(data) {
         if (isJSON(data)) {
-            var d = JSON.parse(data);
+            return JSON.parse(data);
         }
     }
 
@@ -112,7 +112,7 @@
 
                 var d = JSON.parse(e.data);
 
-                if (!checkBroadcastUrl(d.originUrl)) {
+                if (!checkBroadcastUrl(d.fromUrl)) {
 
                     //frames[i].contentWindow.location
                     frames[i].contentWindow.postMessage(JSON.stringify(d), '*');

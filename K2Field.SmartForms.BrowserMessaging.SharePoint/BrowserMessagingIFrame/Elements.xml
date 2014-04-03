@@ -1,18 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Elements xmlns="http://schemas.microsoft.com/sharepoint/">
-  <ClientWebPart Name="BrowserMessagingIFrame" Title="BrowserMessagingIFrame Title" Description="BrowserMessagingIFrame Description" DefaultWidth="300" DefaultHeight="200">
+  <ClientWebPart Name="BrowserMessagingIFrame" Title="Browser Messaging IFrame" Description="Browser Messaging IFrame" DefaultWidth="700" DefaultHeight="100">
 
     <!-- Content element identifies the location of the page that will render inside the client web part
          Properties are referenced on the query string using the pattern _propertyName_
          Example: Src="~appWebUrl/Pages/ClientWebPart1.aspx?Property1=_property1_" -->
-    <Content Type="html" Src="~appWebUrl/Pages/BrowserMessagingIFrame.aspx?{StandardTokens}&amp;IFrameUrl=_IFrameUrl_&amp;ParentPageDomain=_ParentPageDomain_&amp;IsSmartForm=_IsSmartForm_&amp;SmartFormsRuntimeUrl=_SmartFormsRuntimeUrl_&amp;FormName=_FormName_&amp;WPID=_WPID_&amp;WPQ=_WPQ_&amp;WebLocaleId=_WebLocaleId_&amp;HostLogoUrl={HostLogoUrl}" />
+    <Content Type="html" Src="~appWebUrl/Pages/BrowserMessagingIFrame.aspx?{StandardTokens}&amp;IFrameUrl=_IFrameUrl_&amp;IsSmartForm=_IsSmartForm_&amp;SmartFormsRuntimeUrl=_SmartFormsRuntimeUrl_&amp;FormName=_FormName_&amp;WPID=_WPID_&amp;WPQ=_WPQ_&amp;WebLocaleId=_WebLocaleId_&amp;HostLogoUrl={HostLogoUrl}" />
 
     <!-- Define properties in the Properties element.
          Remember to put Property Name on the Src attribute of the Content element above. -->
     <Properties>
       <Property Name="IFrameUrl" Type="string" WebBrowsable="true" WebDisplayName="IFrameUrl" WebDescription="URL of the page you wish to display" WebCategory="Properties" DefaultValue="https://k2.denallix.com/" RequiresDesignerPermission="true" />
-      <Property Name="ParentPageDomain" Type="string" WebBrowsable="true" WebDisplayName="Parent Page Domain" WebDescription="The domain of the parent page e.g. portal.denallix.com" WebCategory="Properties" DefaultValue="portal.denallix.com" RequiresDesignerPermission="true" />
-      <Property Name="IsSmartForm" Type="boolean" WebBrowsable="true" WebDisplayName="Is SmartForm" WebDescription="Are you displaying a SmartForm" WebCategory="Properties" DefaultValue="false" RequiresDesignerPermission="true" />
+      <!--<Property Name="ParentPageDomain" Type="string" WebBrowsable="true" WebDisplayName="Parent Page Domain" WebDescription="The domain of the parent page e.g. portal.denallix.com" WebCategory="Properties" DefaultValue="portal.denallix.com" RequiresDesignerPermission="true" />-->
+      <Property Name="IsSmartForm" Type="boolean" WebBrowsable="true" WebDisplayName="Is SmartForm" WebDescription="Are you displaying a SmartForm" WebCategory="Properties" DefaultValue="true" RequiresDesignerPermission="true" />
       <Property Name="SmartFormsRuntimeUrl" Type="string" WebBrowsable="true" WebDisplayName="SmartForms Runtime Url" WebDescription="Base Url of K2 SmartForms e.g. https://k2.denallix.com/Runtime" WebCategory="Properties" DefaultValue="https://k2.denallix.com/Runtime" RequiresDesignerPermission="true" />
       <Property Name="FormName" Type="string" WebBrowsable="true" WebDisplayName="Form Name" WebDescription="Name of your SmartForm" WebCategory="Properties" DefaultValue="" RequiresDesignerPermission="true" />
 
