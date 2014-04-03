@@ -69,6 +69,8 @@
     </None>
     <Content Include="Scripts\Elements.xml" />
     <Content Include="Scripts\App.js" />
+    <Content Include="Scripts\embeddirectlyinSPpage.js" />
+    <Content Include="Scripts\Helper.js" />
     <Content Include="Scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
     <Content Include="Scripts\jquery-1.9.1.min.js" />

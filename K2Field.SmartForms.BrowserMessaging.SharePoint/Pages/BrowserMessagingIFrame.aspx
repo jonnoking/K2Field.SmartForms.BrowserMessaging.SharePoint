@@ -15,7 +15,7 @@
     <script src="/_layouts/15/sp.runtime.js" type="text/javascript"></script>
 <%--    <link href="https://portal.denallix.com/_layouts/15/defaultcss.ashx" rel="stylesheet">--%>
      <script src="/_layouts/15/sp.js" type="text/javascript"></script>
-
+    <script src="../Scripts/Helper.js" type="text/javascript"></script>
     <script type="text/javascript">
         'use strict';
 
@@ -109,6 +109,26 @@
                 window.addEventListener("message", receiveMessage, false);
             }
 
+
+            // resize app part
+            var resizeToIFrame = "false";
+            var resizeSecondsToWait = 0;
+
+            resizeToIFrame = getQueryStringParameter("ResizeToIFrame");
+            resizeSecondsToWait = getQueryStringParameter("ResizeSecondsToWait");
+
+
+            if (resizeToIFrame.toLowerCase() == "true") {
+
+                setTimeout(resizeToPageSize, (resizeSecondsToWait * 1000));
+
+            } else {
+                resizeToPageSize();
+            }
+            
+
+            //sendSenderIdToIframe();
+
         })();
 
         function receiveMessage(e) {
@@ -132,6 +152,18 @@
         }
 
 
+        function sendSenderIdToIframe() {
+            var senderid = getQueryStringParameter("senderid");
+            var x = {
+                'message': senderid,
+                'messageId': senderid,
+                'messageType': "SharePointSenderId",
+                'messageDateTime': Date.now(),
+                'fromUrl': window.location
+            };
+            $("#iframeMain")[0].contentWindow.postMessage(x, "*");
+        }
+
         // get size of page
         // resize iframe to size of page
 
@@ -140,16 +172,135 @@
         // get wait period
         // postmessage to SP to resize app part
 
-        function reSizeIframe() {
+   
 
+        // adapted from - http://ctp-ms.blogspot.com/2013/03/resizing-app-parts-with-postmessage-in.html
+        //BrowserMessaging = {
+        //    senderId: '',      
+
+        //    // The Sender Id identifies the rendered App Part.
+        //    previousHeight: 0, // the height
+        //    minHeight: 0,      // the minimal allowed height
+        //    firstResize: true, // On the first call of the resize the App Part might be
+        //    // already too small for the content, so force to resize.
+
+        //    init: function () {
+        //        // parse the URL parameters and get the Sender Id
+
+        //        this.senderId = getQueryStringParameter("senderid");
+
+        //        // find the height of the app part, uses it as the minimal allowed height
+        //        this.previousHeight = this.minHeight = $('body').height();
+
+        //        this.adjustSize();
+        //    },
+
+        //    adjustSize: function () {
+        //        // Post the request to resize the App Part, but just if has to make a resize
+
+        //        var step = 30, // the recommended increment step is of 30px. Source:
+        //                       // http://msdn.microsoft.com/en-us/library/jj220046.aspx
+        //            width = $('body').width(),        // the App Part width
+        //            height = $('body').height(),  // the App Part height
+        //                                              // (now it's 7px more than the body)
+        //            newHeight,                        // the new App Part height
+        //            contentHeight = $('#content').height(),
+        //            resizeMessage =
+        //                '<message senderId={Sender_ID}>resize({Width}, {Height})</message>';
+
+        //        // if the content height is smaller than the App Part's height,
+        //        // shrink the app part, but just until the minimal allowed height
+        //        if (contentHeight < height - step && contentHeight >= this.minHeight) {
+        //            height = contentHeight;
+        //        }
+
+        //        // if the content is bigger or smaller then the App Part
+        //        // (or is the first resize)
+        //        if (this.previousHeight !== height || this.firstResize === true) {
+        //            // perform the resizing
+
+        //            // define the new height within the given increment
+        //            newHeight = Math.floor(height / step) * step +
+        //                step * Math.ceil((height / step) - Math.floor(height / step));
+
+        //            // set the parameters
+        //            resizeMessage = resizeMessage.replace("{Sender_ID}", this.senderId);
+        //            resizeMessage = resizeMessage.replace("{Height}", newHeight);
+        //            resizeMessage = resizeMessage.replace("{Width}", width);
+        //            // we are not changing the width here, but we could
+
+        //            // post the message
+        //            window.parent.postMessage(resizeMessage, "*");
+
+        //            // memorize the height
+        //            this.previousHeight = newHeight;
+
+        //            // further resizes are not the first ones
+        //            this.firstResize = false;
+        //        }
+        //    },
+
+
+
+            
+
+        //}
+
+        // 
+
+        // resizes the iframe to the size of the app part
+        function resizeToAppPartConfig() {
+            var apWidth = $('body').width();
+            var apHeight = $('body').height();
+
+            //resizeToAppPart = "false",
+            //resizeToAppPart = getQueryStringParameter("ResizeToAppPart"),               
+
+            $("#iframeMain").attr("height", apHeight);
+            $("#iframeMain").attr("width", apWidth);
+        }
+
+        function resizeToPageSize() {
+            var step = 30; // the recommended increment step is of 30px. Source:
+               // http://msdn.microsoft.com/en-us/library/jj220046.aspx
+            var apWidth = $('body').width();
+            var width = $('body').width();        // the App Part width
+            var height = $('#iframeMain').height();  // the App Part height
+
+
+            //var contentHeight = $('#content').height();
+            var resizeMessage = '<message senderId={Sender_ID}>resize({Width}, {Height})</message>';
+
+            // if the content height is smaller than the App Part's height,
+            // shrink the app part, but just until the minimal allowed height
+            //if (contentHeight < height - step && contentHeight >= this.minHeight) {
+            //    height = contentHeight;
+            //}
+
+
+            // define the new height within the given increment
+            newHeight = Math.floor(height / step) * step +
+                step * Math.ceil((height / step) - Math.floor(height / step));
+
+            // set the parameters
+            resizeMessage = resizeMessage.replace("{Sender_ID}", this.senderId);
+            resizeMessage = resizeMessage.replace("{Height}", newHeight);
+            resizeMessage = resizeMessage.replace("{Width}", width);
+            // we are not changing the width here, but we could
+
+            // post the message
+            window.parent.postMessage(resizeMessage, "*");
 
         }
+
+        
+
 
 
     </script>
 
 </head>
-<body>
+<body style="margin:0;padding:0">
     <div class="fullscreen">
         <div id="divErrorContainer" style="margin: 23px 0px 0px 23px; width: 100%; display: none;">
 
@@ -172,7 +323,7 @@
                 </tbody>
             </table>
         </div>
-        <iframe width="750" height="450" id="iframeMain" src="about:blank" scrolling="no"></iframe>
+        <iframe id="iframeMain" src="about:blank" scrolling="no"></iframe>
     </div>
 </body>
 </html>
