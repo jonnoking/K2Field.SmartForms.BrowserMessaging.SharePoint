@@ -44,6 +44,7 @@
             smartFormsRuntimeUrl = getQueryStringParameter("SmartFormsRuntimeUrl");
             formName = getQueryStringParameter("FormName");
 
+            // debugging
             console.log(iFrameUrl);
             console.log(parentPageDomain);
             console.log(isSmartForm);
@@ -102,6 +103,11 @@
                 console.log(iFrameUrl);
             }
 
+            
+
+        })();
+
+        $(document).ready(function () {
             if (window.attachEvent) {
                 attachEvent("onmessage", receiveMessage);
             } else {
@@ -123,13 +129,14 @@
                 setTimeout(resizeToPageSize, (resizeSecondsToWait * 1000));
 
             } else {
-                resizeToPageSize();
+                resizeToAppPartConfig();
             }
-            
 
+            //resizeToPageSize();
             //sendSenderIdToIframe();
 
-        })();
+            //resizeToAppPartConfig();
+        });
 
         function receiveMessage(e) {
             var data = e.data;
@@ -159,7 +166,7 @@
                 'messageId': senderid,
                 'messageType': "SharePointSenderId",
                 'messageDateTime': Date.now(),
-                'fromUrl': window.location
+                'fromUrl': window.location,
             };
             $("#iframeMain")[0].contentWindow.postMessage(x, "*");
         }
@@ -265,9 +272,9 @@
                // http://msdn.microsoft.com/en-us/library/jj220046.aspx
             var apWidth = $('body').width();
             var width = $('body').width();        // the App Part width
-            var height = $('#iframeMain').height();  // the App Part height
+            var height = $('#iframeMain').prop("scrollHeight");  // the App Part height
 
-
+            var senderid = getQueryStringParameter("senderid");
             //var contentHeight = $('#content').height();
             var resizeMessage = '<message senderId={Sender_ID}>resize({Width}, {Height})</message>';
 
@@ -279,11 +286,11 @@
 
 
             // define the new height within the given increment
-            newHeight = Math.floor(height / step) * step +
+            var newHeight = Math.floor(height / step) * step +
                 step * Math.ceil((height / step) - Math.floor(height / step));
 
             // set the parameters
-            resizeMessage = resizeMessage.replace("{Sender_ID}", this.senderId);
+            resizeMessage = resizeMessage.replace("{Sender_ID}", senderid);
             resizeMessage = resizeMessage.replace("{Height}", newHeight);
             resizeMessage = resizeMessage.replace("{Width}", width);
             // we are not changing the width here, but we could

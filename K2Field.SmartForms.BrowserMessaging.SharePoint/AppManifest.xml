@@ -3,7 +3,7 @@
 <App xmlns="http://schemas.microsoft.com/sharepoint/2012/app/manifest"
      Name="K2 Browser Messaging"
      ProductID="{7e6ad480-3c2d-4e4e-aca4-19c8e7f82a9d}"
-     Version="1.0.0.9"
+     Version="1.0.0.12"
      SharePointMinVersion="15.0.0.0"
 >
   <Properties>

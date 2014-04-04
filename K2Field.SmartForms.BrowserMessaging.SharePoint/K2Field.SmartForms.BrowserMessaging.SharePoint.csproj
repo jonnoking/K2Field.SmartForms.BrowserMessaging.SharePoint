@@ -41,9 +41,6 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="BrowserMessagingBroadcaster\SharePointProjectItem.spdata">
-      <SharePointProjectItemId>{1bfdf6b6-fc80-4795-9e13-d6816b1b989b}</SharePointProjectItemId>
-    </None>
     <None Include="BrowserMessagingIFrame\SharePointProjectItem.spdata">
       <SharePointProjectItemId>{4b39d7c8-b759-41ee-af51-a82879176313}</SharePointProjectItemId>
     </None>
@@ -51,9 +48,6 @@
     <None Include="Pages\SharePointProjectItem.spdata">
       <SharePointProjectItemId>{7e6ad480-3c2d-4e4e-aca4-19c8e7f82a9d}</SharePointProjectItemId>
     </None>
-    <Content Include="BrowserMessagingBroadcaster\Elements.xml">
-      <OpcRelationship>feature-elementmanifest</OpcRelationship>
-    </Content>
     <Content Include="BrowserMessagingIFrame\Elements.xml">
       <OpcRelationship>feature-elementmanifest</OpcRelationship>
     </Content>

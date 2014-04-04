@@ -2,7 +2,7 @@
 </script><script type="text/javascript">
 
 var enableDebug = "true";
-var rebroadcastStrings = "true";
+var broadcastStrings = "true";
 
 // This code runs when the DOM is ready and creates a context object which is needed to use the SharePoint object model
 $(document).ready(function () {
@@ -12,7 +12,7 @@ $(document).ready(function () {
     //    'messageId': $(instance).attr("messageid"),
     //    'messageType': $(instance).attr("messagetype"),
     //    'fromUrl': window.location.href,
-    //    'broadcast': $(instance).attr("rebroadcast"),
+    //    'broadcast': $(instance).attr("broadcast"),
     //    'callback': $(instance).attr("callback"),
     //    'messageDatetime': 
     //};
@@ -35,7 +35,7 @@ function receiveMessage(e) {
         var d = parseMessage(e.data);
 
         $(window).trigger("browserMessageReceived", data);
-        if (d.broadcast.toLowerCase() == "true") {
+        if (d.broadcast == true || d.broadcast == "true" || d.broadcast == "True") {
             broadcastmessages(e);
         }
         if (enableDebug.toLowerCase() == "true") {
@@ -49,7 +49,7 @@ function receiveMessage(e) {
             LogPostMessage(data);
         }
 
-        if (rebroadcastStrings.toLowerCase() == "true") {
+        if (broadcastStrings.toLowerCase() == "true") {
             broadcastmessages(e);
         }
 
@@ -78,16 +78,16 @@ function broadcastmessages(e) {
 
         if (isJSON(e.data)) {
             // a JSON string
-
-            // don't rebroadcast back to messages origin url
+            var d = JSON.parse(e.data);
+            // don't broadcast back to messages origin url
             if (checkBroadcastUrl(d.fromUrl)) {
                 frames[i].contentWindow.postMessage(e.data, '*');
             }
         }
         else {
-            // check app part property - rebroadcast strings
+            // check app part property - broadcast strings
 
-            if(rebroadcastStrings.toLowerCase() == "true") {
+            if(broadcastStrings.toLowerCase() == "true") {
                 frames[i].contentWindow.postMessage(e.data, '*');
             }
         }
@@ -102,6 +102,7 @@ function LogPostMessage(message) {
     //$('#log').prepend("<li>" + message + "</li>");
     console.log(message);
 }
+
 
 
 </script> 
