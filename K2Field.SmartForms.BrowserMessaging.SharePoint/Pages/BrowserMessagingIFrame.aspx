@@ -19,6 +19,11 @@
     <script type="text/javascript">
         'use strict';
 
+        // FEATURE REQUESTS
+        // disable scroll bars
+        // pre defined messages e.g. resize, replace url
+        // display SmartForms View, isView
+
 
         // Code adapted from the K2 SmartForm Viewer app part
         (function () {
@@ -37,20 +42,23 @@
             var isSmartForm = false;
             var smartFormsRuntimeUrl = "";
             var formName = "";
+            var isView = false;
+            
 
             iFrameUrl = getQueryStringParameter("IFrameUrl");
-            parentPageDomain = getQueryStringParameter("ParentPageDomain");
+            //parentPageDomain = getQueryStringParameter("ParentPageDomain");
             isSmartForm = getQueryStringParameter("IsSmartForm");
             smartFormsRuntimeUrl = getQueryStringParameter("SmartFormsRuntimeUrl");
             formName = getQueryStringParameter("FormName");
+            isView = getQueryStringParameter("IsView");
+            
 
             // debugging
-            console.log(iFrameUrl);
-            console.log(parentPageDomain);
-            console.log(isSmartForm);
-            console.log(smartFormsRuntimeUrl);
-            console.log(formName);
-            console.log(hostUrl);
+            //console.log(iFrameUrl);            
+            //console.log(isSmartForm);
+            //console.log(smartFormsRuntimeUrl);
+            //console.log(formName);
+            //console.log(hostUrl);
 
             //if (parentPageDomain != "") {
             //    document.domain = parentPageDomain;
@@ -81,7 +89,13 @@
                                 "&HostLogoUrl=" + getQueryStringParameter("HostLogoUrl") + "&SPAppWebUrl=" + getQueryStringParameter("SPAppWebUrl") +
                                 "&SPHostTitle=" + getQueryStringParameter("SPHostTitle") + "&SPLanguage=" + getQueryStringParameter("SPLanguage") +
                                 "&SmartFormsUrl=" + sfUrl;
-                            var runtimeUrl = sfUrl + "/Form/" + formName.replace(" ", "+") + parameters;
+
+                            var isFormOrView = "/Form/";
+                            if (isView) {
+                                isFormOrView = "/View/"
+                            }
+
+                            var runtimeUrl = sfUrl + isFormOrView + formName.replace(" ", "+") + parameters;
                             var redirectUrl = sfUrl + '/_trust/spauthorize.aspx?trust=' + user.get_userId().get_nameIdIssuer() +
                                                                                 '&upn=' + user.get_email() +
                                                                                 '&returnUrl=' + encodeURIComponent(runtimeUrl);
@@ -125,8 +139,9 @@
 
 
             if (resizeToIFrame.toLowerCase() == "true") {
-
-                setTimeout(resizeToPageSize, (resizeSecondsToWait * 1000));
+                var timeToWait = 0;
+                timeToWait = resizeSecondsToWait * 1000;
+                setTimeout(resizeToPageSize, timeToWait);
 
             } else {
                 resizeToAppPartConfig();
@@ -136,6 +151,13 @@
             //sendSenderIdToIframe();
 
             //resizeToAppPartConfig();
+            var disableScrollBars = false;
+            disableScrollBars = getQueryStringParameter("DisableScrollBars");
+
+            if (disableScrollBars) {
+                ("#iframeMain").attr("scrolling", "no");
+            }
+
         });
 
         function receiveMessage(e) {
@@ -330,7 +352,7 @@
                 </tbody>
             </table>
         </div>
-        <iframe id="iframeMain" src="about:blank" scrolling="no"></iframe>
+        <iframe id="iframeMain" src="about:blank"></iframe>
     </div>
 </body>
 </html>

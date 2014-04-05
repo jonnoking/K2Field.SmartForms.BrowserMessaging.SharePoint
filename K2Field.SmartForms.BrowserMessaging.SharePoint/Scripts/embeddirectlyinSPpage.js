@@ -1,22 +1,28 @@
-﻿<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js">
-</script><script type="text/javascript">
-
+﻿<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+<script type="text/javascript">
 var enableDebug = "true";
 var broadcastStrings = "true";
 
 // This code runs when the DOM is ready and creates a context object which is needed to use the SharePoint object model
-$(document).ready(function () {
+ExecuteOrDelayUntilScriptLoaded(regMessageReceive, "sp.js")
+//_spBodyOnLoadFunctionNames.push(regMessageReceive);
 
-    //var x = {
-    //    'message': $(instance).attr("value"),
-    //    'messageId': $(instance).attr("messageid"),
-    //    'messageType': $(instance).attr("messagetype"),
-    //    'fromUrl': window.location.href,
-    //    'broadcast': $(instance).attr("broadcast"),
-    //    'callback': $(instance).attr("callback"),
-    //    'messageDatetime': 
-    //};
+// $(document).ready(function () {
 
+// //var x = {
+// //    'message': $(instance).attr("value"),
+// //    'messageId': $(instance).attr("messageid"),
+// //    'messageType': $(instance).attr("messagetype"),
+// //    'fromUrl': window.location.href,
+// //    'broadcast': $(instance).attr("broadcast"),
+// //    'callback': $(instance).attr("callback"),
+// //    'messageDatetime': 
+// //};
+
+// });
+
+
+function regMessageReceive() {
     // for older Internet Explorer
     if (window.attachEvent) {
         attachEvent("onmessage", receiveMessage);
@@ -24,17 +30,23 @@ $(document).ready(function () {
 
         window.addEventListener("message", receiveMessage, false);
     }
-});
-
+}
 
 function receiveMessage(e) {
+
+    if(e.data.startsWith("<message")) {
+        //window.postMessage(e.data, "*");
+        console.log("RECEIVED RESIZE: "+ e.data);
+        return;
+    }
+
     var data = e.data;
     var origin = e.origin;
     if (isJSON(data)) {
 
         var d = parseMessage(e.data);
 
-        $(window).trigger("browserMessageReceived", data);
+        //$(window).trigger("browserMessageReceived", data);
         if (d.broadcast == true || d.broadcast == "true" || d.broadcast == "True") {
             broadcastmessages(e);
         }
@@ -43,7 +55,7 @@ function receiveMessage(e) {
         }
     } else {
 
-        $(window).trigger("browserMessageReceived", data);
+        //$(window).trigger("browserMessageReceived", data);
 
         if (enableDebug.toLowerCase() == "true") {
             LogPostMessage(data);
@@ -104,5 +116,4 @@ function LogPostMessage(message) {
 }
 
 
-
-</script> 
+</script>
