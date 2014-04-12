@@ -50,9 +50,12 @@ function receiveMessage(e) {
         if (d.broadcast == true || d.broadcast == "true" || d.broadcast == "True") {
             broadcastmessages(e);
         }
+
+
         if (enableDebug.toLowerCase() == "true") {
             LogPostMessage(d['message'] + " - " + d['fromUrl']);
         }
+
     } else {
 
         //$(window).trigger("browserMessageReceived", data);
@@ -91,9 +94,14 @@ function broadcastmessages(e) {
         if (isJSON(e.data)) {
             // a JSON string
             var d = JSON.parse(e.data);
+
+            // change broadcast status so that message does't get echoed unncessarily back to this page
+            d.broadcast = "false";
+
+            //frames[i].contentWindow.postMessage(e.data, '*');
             // don't broadcast back to messages origin url
             if (checkBroadcastUrl(d.fromUrl)) {
-                frames[i].contentWindow.postMessage(e.data, '*');
+                frames[i].contentWindow.postMessage(JSON.stringify(d), '*');
             }
         }
         else {

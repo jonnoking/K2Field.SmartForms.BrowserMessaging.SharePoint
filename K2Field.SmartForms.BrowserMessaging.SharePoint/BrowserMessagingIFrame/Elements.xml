@@ -5,7 +5,7 @@
     <!-- Content element identifies the location of the page that will render inside the client web part
          Properties are referenced on the query string using the pattern _propertyName_
          Example: Src="~appWebUrl/Pages/ClientWebPart1.aspx?Property1=_property1_" -->
-    <Content Type="html" Src="~appWebUrl/Pages/BrowserMessagingIFrame.aspx?{StandardTokens}&amp;DisableScrollBars=_DisableScrollBars_&amp;IsView=_IsView_&amp;IFrameUrl=_IFrameUrl_&amp;ResizeToIFrame=_ResizeToIFrame_&amp;ResizeSecondsToWait=_ResizeSecondsToWait_&amp;IsSmartForm=_IsSmartForm_&amp;SmartFormsRuntimeUrl=_SmartFormsRuntimeUrl_&amp;FormName=_FormName_&amp;WPID=_WPID_&amp;WPQ=_WPQ_&amp;WebLocaleId=_WebLocaleId_&amp;HostLogoUrl={HostLogoUrl}" />
+    <Content Type="html" Src="~appWebUrl/Pages/BrowserMessagingIFrame.aspx?{StandardTokens}&amp;AttachSharePointParams=_AttachSharePointParams_&amp;DisableScrollBars=_DisableScrollBars_&amp;IsView=_IsView_&amp;IFrameUrl=_IFrameUrl_&amp;ResizeToIFrame=_ResizeToIFrame_&amp;ResizeSecondsToWait=_ResizeSecondsToWait_&amp;IsSmartForm=_IsSmartForm_&amp;SmartFormsRuntimeUrl=_SmartFormsRuntimeUrl_&amp;FormName=_FormName_&amp;WPID=_WPID_&amp;WPQ=_WPQ_&amp;WebLocaleId=_WebLocaleId_&amp;HostLogoUrl={HostLogoUrl}" />
     
     <!--<Content Type="html" Src="~appWebUrl/Pages/BrowserMessagingIFrame.aspx?{StandardTokens}&amp;IFrameUrl=_IFrameUrl_&amp;IsSmartForm=_IsSmartForm_&amp;SmartFormsRuntimeUrl=_SmartFormsRuntimeUrl_&amp;FormName=_FormName_&amp;WPID=_WPID_&amp;WPQ=_WPQ_&amp;WebLocaleId=_WebLocaleId_&amp;HostLogoUrl={HostLogoUrl}" />-->
 
@@ -21,6 +21,8 @@
       <Property Name="ResizeSecondsToWait" Type="int" WebBrowsable="true" WebDisplayName="Resize Seconds To Wait" WebDescription="Seconds to wait to resize the App Part to the full size of the IFrame" WebCategory="Properties" DefaultValue="0" RequiresDesignerPermission="false" />
       <Property Name="IsView" Type="boolean" WebBrowsable="true" WebDisplayName="Is View" WebDescription="Is a SmartForms View rather than a Form" WebCategory="Properties" DefaultValue="false" RequiresDesignerPermission="false" />
       <Property Name="DisableScrollBars" Type="boolean" WebBrowsable="true" WebDisplayName="Disable Scroll Bars" WebDescription="Disable scroll bars on the iframe hosting the page" WebCategory="Properties" DefaultValue="false" RequiresDesignerPermission="false" />
+      <!--<Property Name="QueryStringPassThrough" Type="string" WebBrowsable="true" WebDisplayName="Query String Pass Through" WebDescription="Comma separated list of query string parameters to append to the form url" WebCategory="Properties" DefaultValue="false" RequiresDesignerPermission="false" />-->
+      <Property Name="AttachSharePointParams" Type="string" WebBrowsable="true" WebDisplayName="Attach SharePoint Params" WebDescription="Attach SharePoint params e.g. SPHostUrl, WPID, etc as query string to the SmartForms url" WebCategory="Properties" DefaultValue="false" RequiresDesignerPermission="false" />
 
 
     </Properties>

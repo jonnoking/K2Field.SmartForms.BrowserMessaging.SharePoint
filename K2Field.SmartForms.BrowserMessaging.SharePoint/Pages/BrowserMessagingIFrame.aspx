@@ -20,9 +20,10 @@
         'use strict';
 
         // FEATURE REQUESTS
-        // disable scroll bars
+        // Solve echo issue
         // pre defined messages e.g. resize, replace url
-        // display SmartForms View, isView
+        // make passing standard sharepoint query string values optional
+        // can we pass page QS to form?
 
 
         // Code adapted from the K2 SmartForm Viewer app part
@@ -39,11 +40,12 @@
 
             var iFrameUrl = "";
             var parentPageDomain = "";
-            var isSmartForm = false;
+            var isSmartForm = "false";
             var smartFormsRuntimeUrl = "";
             var formName = "";
-            var isView = false;
-            
+            var isView = "false";
+            var queryStringPassThrough = "";
+            var attachSharePointParams = "";
 
             iFrameUrl = getQueryStringParameter("IFrameUrl");
             //parentPageDomain = getQueryStringParameter("ParentPageDomain");
@@ -51,7 +53,14 @@
             smartFormsRuntimeUrl = getQueryStringParameter("SmartFormsRuntimeUrl");
             formName = getQueryStringParameter("FormName");
             isView = getQueryStringParameter("IsView");
-            
+            attachSharePointParams = getQueryStringParameter("AttachSharePointParams");
+
+            //queryStringPassThrough = getQueryStringParameter("QueryStringPassThrough");            
+            //var qsItems = [];
+
+            //if (queryStringPassThrough.length > 0) {
+            //    qsItems = queryStringPassThrough.split(",");
+            //}
 
             // debugging
             //console.log(iFrameUrl);            
@@ -91,11 +100,15 @@
                                 "&SmartFormsUrl=" + sfUrl;
 
                             var isFormOrView = "/Form/";
-                            if (isView) {
+                            if (isView.toLowerCase() == 'true' || isView == true) {
                                 isFormOrView = "/View/"
                             }
 
-                            var runtimeUrl = sfUrl + isFormOrView + formName.replace(" ", "+") + parameters;
+                            var runtimeUrl = sfUrl + isFormOrView + formName.replace(" ", "+").replace("%20", "+");
+                            if (attachSharePointParams.toLowerCase() == "true") {
+                                runtimeUrl += parameters;
+                            }
+
                             var redirectUrl = sfUrl + '/_trust/spauthorize.aspx?trust=' + user.get_userId().get_nameIdIssuer() +
                                                                                 '&upn=' + user.get_email() +
                                                                                 '&returnUrl=' + encodeURIComponent(runtimeUrl);
@@ -114,11 +127,9 @@
             } else {
                 // not a smartform
                 $("#iframeMain").attr("src", iFrameUrl);
-                console.log(iFrameUrl);
+                console.log("BROWSER MESSAGING IFRAME URL: " + iFrameUrl);
             }
-
-            
-
+           
         })();
 
         $(document).ready(function () {
@@ -139,10 +150,10 @@
 
 
             if (resizeToIFrame.toLowerCase() == "true") {
-                var timeToWait = 0;
-                timeToWait = resizeSecondsToWait * 1000;
-                setTimeout(resizeToPageSize, timeToWait);
-
+                //var timeToWait = 0;
+                //timeToWait = resizeSecondsToWait * 1000;
+                //setTimeout(resizeToPageSize, timeToWait);
+                resizeToAppPartConfig();
             } else {
                 resizeToAppPartConfig();
             }
@@ -151,11 +162,11 @@
             //sendSenderIdToIframe();
 
             //resizeToAppPartConfig();
-            var disableScrollBars = false;
+            var disableScrollBars = "false";
             disableScrollBars = getQueryStringParameter("DisableScrollBars");
 
-            if (disableScrollBars) {
-                ("#iframeMain").attr("scrolling", "no");
+            if (disableScrollBars.toLowerCase() == 'true' || disableScrollBars == true) {
+                $("#iframeMain").attr("scrolling", "no");
             }
 
         });
@@ -168,16 +179,38 @@
             console.log("MESSAGE RECEIVED ORIGIN: " + origin);
 
             
+            //$("#iframeMain")[0].contentWindow.postMessage(e.data, "*");
+            //window.parent.postMessage(data, "*");
+
             // check if e.origin from hostUrl - then send to iframe
             var hostUrl = stripTrailingSlash(getSPHostUrl());
 
-            // if the app part receives a message from a SharePoint page then rebroadcast message to iframe on this page
-            if (origin.startsWith(hostUrl)) {
-                $("#iframeMain")[0].contentWindow.postMessage(e.data, "*");
-            } else {
-                // if the iframe in this app part posts a message to this page then rebroadcast to parent page i.e. the SharePoint page that contains this app part
+            var iFrameUrl = "";
+            var isSmartForm = "false";
+            var smartFormsRuntimeUrl = "";
+            var formName = "";
+            var isView = "false";
+
+            iFrameUrl = getQueryStringParameter("IFrameUrl");
+            isSmartForm = getQueryStringParameter("IsSmartForm");
+            smartFormsRuntimeUrl = getQueryStringParameter("SmartFormsRuntimeUrl");
+            formName = getQueryStringParameter("FormName");
+            isView = getQueryStringParameter("IsView");
+
+            // send to parent
+            // if is smartforms and smartformsruntime starts with e.origin then post to parent e.g. SharePoint host page            
+            if ((isSmartForm.toLowerCase() == "true" && smartFormsRuntimeUrl.contains(e.origin)) || (isSmartForm.toLowerCase() == "false" && iFrameUrl.contains(e.origin))) {
                 window.parent.postMessage(data, "*");
+                return;
             }
+
+            // sent to igrameMain
+            // if is smartforms and hosturl contains e.origin meaning the message came from the page hosting this SP App then post to iframeMain
+            if (isSmartForm.toLowerCase() == "true" && hostUrl.contains(e.origin)) {
+                $("#iframeMain")[0].contentWindow.postMessage(e.data, "*");               
+                return;
+            }
+
         }
 
 
