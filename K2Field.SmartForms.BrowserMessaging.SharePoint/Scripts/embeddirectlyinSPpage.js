@@ -96,7 +96,7 @@ function broadcastmessages(e) {
             var d = JSON.parse(e.data);
 
             // change broadcast status so that message does't get echoed unncessarily back to this page
-            d.broadcast = "false";
+            //d.broadcast = "false";
 
             //frames[i].contentWindow.postMessage(e.data, '*');
             // don't broadcast back to messages origin url

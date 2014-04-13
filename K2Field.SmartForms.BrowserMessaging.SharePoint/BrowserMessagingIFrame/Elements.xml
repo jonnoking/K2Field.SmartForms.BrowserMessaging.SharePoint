@@ -20,9 +20,9 @@
       <Property Name="ResizeToIFrame" Type="boolean" WebBrowsable="true" WebDisplayName="Resize To IFrame" WebDescription="Resize the App Part to the full size of the IFrame" WebCategory="Properties" DefaultValue="false" RequiresDesignerPermission="false" />
       <Property Name="ResizeSecondsToWait" Type="int" WebBrowsable="true" WebDisplayName="Resize Seconds To Wait" WebDescription="Seconds to wait to resize the App Part to the full size of the IFrame" WebCategory="Properties" DefaultValue="0" RequiresDesignerPermission="false" />
       <Property Name="IsView" Type="boolean" WebBrowsable="true" WebDisplayName="Is View" WebDescription="Is a SmartForms View rather than a Form" WebCategory="Properties" DefaultValue="false" RequiresDesignerPermission="false" />
-      <Property Name="DisableScrollBars" Type="boolean" WebBrowsable="true" WebDisplayName="Disable Scroll Bars" WebDescription="Disable scroll bars on the iframe hosting the page" WebCategory="Properties" DefaultValue="false" RequiresDesignerPermission="false" />
+      <!--<Property Name="DisableScrollBars" Type="boolean" WebBrowsable="true" WebDisplayName="Disable Scroll Bars" WebDescription="Disable scroll bars on the iframe hosting the page" WebCategory="Properties" DefaultValue="false" RequiresDesignerPermission="false" />-->
       <!--<Property Name="QueryStringPassThrough" Type="string" WebBrowsable="true" WebDisplayName="Query String Pass Through" WebDescription="Comma separated list of query string parameters to append to the form url" WebCategory="Properties" DefaultValue="false" RequiresDesignerPermission="false" />-->
-      <Property Name="AttachSharePointParams" Type="string" WebBrowsable="true" WebDisplayName="Attach SharePoint Params" WebDescription="Attach SharePoint params e.g. SPHostUrl, WPID, etc as query string to the SmartForms url" WebCategory="Properties" DefaultValue="false" RequiresDesignerPermission="false" />
+      <Property Name="AttachSharePointParams" Type="boolean" WebBrowsable="true" WebDisplayName="Attach SharePoint Params" WebDescription="Attach SharePoint params e.g. SPHostUrl, WPID, etc as query string to the SmartForms url" WebCategory="Properties" DefaultValue="false" RequiresDesignerPermission="false" />
 
 
     </Properties>
