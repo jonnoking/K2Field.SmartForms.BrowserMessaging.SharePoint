@@ -190,6 +190,9 @@ function receiveMessage(e) {
     var data = e.data;
     var origin = e.origin;
 
+    var d = JSON.parse(data);
+
+
     //console.log("MESSAGE RECEIVED: " + data);
     //console.log("MESSAGE RECEIVED ORIGIN: " + origin);
 
@@ -207,12 +210,42 @@ function receiveMessage(e) {
     smartFormsRuntimeUrl = getQueryStringParameter("SmartFormsRuntimeUrl");
     formName = getQueryStringParameter("FormName");
     isView = getQueryStringParameter("IsView");
-    var d = JSON.parse(data);
+    
     // send to parent
      //if is smartforms and smartformsruntime starts with e.origin then post to parent e.g. SharePoint host page            
     if ((isSmartForm.toLowerCase() == "true" && smartFormsRuntimeUrl.contains(e.origin)) || (isSmartForm.toLowerCase() == "false" && iFrameUrl.contains(e.origin))) {
-        window.parent.postMessage(data, "*");
 
+        // check if message is a predefined browser messaging send smartform control method
+        if (d.messageType) {
+            var senderid = getQueryStringParameter("senderid");
+            var resizeMessage = '<message senderId={Sender_ID}>resize({Width}, {Height})</message>';
+            switch (d.messageType.toLowerCase()) {
+                case "apppartresize":
+                    resizeMessage = resizeMessage.replace("{Sender_ID}", senderid);
+                    resizeMessage = resizeMessage.replace("{Width}", d.message);
+                    resizeMessage = resizeMessage.replace("{Height}", d.messageId);
+                    window.parent.postMessage(resizeMessage, "*");
+
+                    $("#iframeMain").attr("height", d.messageId);
+                    $("#iframeMain").attr("width", d.message);
+
+                    return;
+                    break;
+                case "apppartresizetopage":
+                    resizeMessage = resizeMessage.replace("{Sender_ID}", senderid);
+                    resizeMessage = resizeMessage.replace("{Width}", $(window).width());
+                    resizeMessage = resizeMessage.replace("{Height}", d.messageId);
+                    window.parent.postMessage(resizeMessage, "*");
+
+                    $("#iframeMain").attr("height", d.messageId);
+                    $("#iframeMain").attr("width", $(window).width());
+
+                    return;
+                    break;
+            }
+        }
+        // if it reaches here just send as is to parent
+        window.parent.postMessage(data, "*");
         k2bmSent.push(d.messageDateTime + "-" + d.fromUrl);
         return;
     }

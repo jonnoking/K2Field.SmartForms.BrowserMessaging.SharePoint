@@ -8,5 +8,6 @@
     <File Path="Scripts\jquery-1.9.1.intellisense.js" Url="Scripts/jquery-1.9.1.intellisense.js" ReplaceContent="TRUE" />
     <File Path="Scripts\embeddirectlyinSPpage.js" Url="Scripts/embeddirectlyinSPpage.js" ReplaceContent="TRUE" />
     <File Path="Scripts\Helper.js" Url="Scripts/Helper.js" ReplaceContent="TRUE" />
+    <File Path="Scripts\SPResizeCode.js" Url="Scripts/SPResizeCode.js" ReplaceContent="TRUE" />
   </Module>
 </Elements>

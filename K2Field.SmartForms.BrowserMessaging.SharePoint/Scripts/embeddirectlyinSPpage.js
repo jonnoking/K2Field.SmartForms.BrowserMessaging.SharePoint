@@ -37,6 +37,12 @@ function receiveMessage(e) {
     if(e.data.startsWith("<message")) {
         //window.postMessage(e.data, "*");
         console.log("RECEIVED RESIZE: "+ e.data);
+
+        // call the standard resize method on a SP page
+        if (SPAppIFramePostMsgHandler) {
+            SPAppIFramePostMsgHandler(e) 
+        }
+
         return;
     }
 

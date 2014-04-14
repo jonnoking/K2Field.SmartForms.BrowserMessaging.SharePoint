@@ -9,5 +9,6 @@
     <ProjectItemFile Source="jquery-1.9.1.intellisense.js" Target="Scripts\" Type="ElementFile" />
     <ProjectItemFile Source="embeddirectlyinSPpage.js" Target="Scripts\" Type="ElementFile" />
     <ProjectItemFile Source="Helper.js" Target="Scripts\" Type="ElementFile" />
+    <ProjectItemFile Source="SPResizeCode.js" Target="Scripts\" Type="ElementFile" />
   </Files>
 </ProjectItem>
