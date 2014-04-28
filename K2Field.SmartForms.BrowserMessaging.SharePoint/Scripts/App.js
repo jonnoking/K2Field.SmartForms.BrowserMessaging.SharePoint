@@ -133,13 +133,8 @@ $(document).ready(function () {
     var resizeSecondsToWait = 0;
 
     resizeToIFrame = getQueryStringParameter("ResizeToIFrame");
-    resizeSecondsToWait = getQueryStringParameter("ResizeSecondsToWait");
-
 
     if (resizeToIFrame.toLowerCase() == "true") {
-        //var timeToWait = 0;
-        //timeToWait = resizeSecondsToWait * 1000;
-        //setTimeout(resizeToPageSize, timeToWait);
         resizeToAppPartConfig();
     } else {
         resizeToAppPartConfig();
@@ -237,8 +232,12 @@ function receiveMessage(e) {
                     resizeMessage = resizeMessage.replace("{Height}", d.messageId);
                     window.parent.postMessage(resizeMessage, "*");
 
+                    //var apWidth = $('body').width();
+                    //var apHeight = $('body').height();
+
+
                     $("#iframeMain").attr("height", d.messageId);
-                    $("#iframeMain").attr("width", $(window).width());
+                    $("#iframeMain").attr("width", $('body').width());
 
                     return;
                     break;
@@ -250,7 +249,7 @@ function receiveMessage(e) {
         return;
     }
 
-    // sent to igrameMain
+    // sent to iframeMain
     // if is smartforms and hosturl contains e.origin meaning the message came from the page hosting this SP App then post to iframeMain 
     // - this means a page sending a message will receive an echo of it. Need more validation to stop this
     if (hostUrl.contains(e.origin)) {

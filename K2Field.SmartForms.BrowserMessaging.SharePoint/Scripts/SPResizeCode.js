@@ -1,5 +1,5 @@
-﻿var spAppIFrameSenderInfo = new Array(1);
-var SPAppIFramePostMsgHandler = function (e) {
+﻿//var spAppIFrameSenderInfo = new Array(1);
+var K2_SPAppIFramePostMsgHandler = function (e) {
     if (e.data.length > 100)
         return;
 
@@ -98,4 +98,4 @@ var SPAppIFramePostMsgHandler = function (e) {
 //    window.attachEvent('onmessage', SPAppIFramePostMsgHandler);
 //}
 
-spAppIFrameSenderInfo[0] = new Array("F9E3ED9D0", "g_bcbfba2a_ea1f_427a_95ea_4406c004489f", "https:\u002f\u002fk2jonno-9a17a017608bf6.sharepoint.com", "True", "True", "ctl00_ctl47_g_d4788dba_b960_4dab_9fce_c05a50a1679d");
+//spAppIFrameSenderInfo[0] = new Array("F9E3ED9D0", "g_bcbfba2a_ea1f_427a_95ea_4406c004489f", "https:\u002f\u002fk2jonno-9a17a017608bf6.sharepoint.com", "True", "True", "ctl00_ctl47_g_d4788dba_b960_4dab_9fce_c05a50a1679d");
