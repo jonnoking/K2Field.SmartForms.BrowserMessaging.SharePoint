@@ -43,6 +43,10 @@ function receiveMessage(e) {
             SPAppIFramePostMsgHandler(e) 
         }
 
+        //if (K2_SPAppIFramePostMsgHandler) {
+        //    K2_SPAppIFramePostMsgHandler(e);
+        //}
+
         return;
     }
 
@@ -113,15 +117,140 @@ function broadcastmessages(e) {
         else {
             // check app part property - broadcast strings
 
-            if(broadcastStrings.toLowerCase() == "true") {
-                frames[i].contentWindow.postMessage(e.data, '*');
-            }
+            //if(broadcastStrings.toLowerCase() == "true") {
+            //    frames[i].contentWindow.postMessage(e.data, '*');
+            //}
+            frames[i].contentWindow.postMessage(e.data, '*');
         }
     }
 }
 
+var K2_SPAppIFramePostMsgHandler = function (e) {
+    if (e.data.length > 100)
+        return;
+
+    var regex = RegExp(/(<\s*[Mm]essage\s+[Ss]ender[Ii]d\s*=\s*([\dAaBbCcDdEdFf]{8})(\d{1,3})\s*>[Rr]esize\s*\(\s*(\s*(\d*)\s*([^,\)\s\d]*)\s*,\s*(\d*)\s*([^,\)\s\d]*))?\s*\)\s*<\/\s*[Mm]essage\s*>)/);
+    var results = regex.exec(e.data);
+    if (results == null)
+        return;
+
+    var senderIndex = results[3];
+    if (senderIndex >= spAppIFrameSenderInfo.length)
+        return;
+
+    var senderId = results[2] + senderIndex;
+    var iframeId = unescape(spAppIFrameSenderInfo[senderIndex][1]);
+    var senderOrigin = unescape(spAppIFrameSenderInfo[senderIndex][2]);
+    if (senderId != spAppIFrameSenderInfo[senderIndex][0] || senderOrigin != e.origin)
+        return;
+
+    var width = results[5];
+    var height = results[7];
+    if (width == "") {
+        width = '300px';
+    }
+    else {
+        var widthUnit = results[6];
+        if (widthUnit == "")
+            widthUnit = 'px';
+
+        width = width + widthUnit;
+    }
+
+    if (height == "") {
+        height = '150px';
+    }
+    else {
+        var heightUnit = results[8];
+        if (heightUnit == "")
+            heightUnit = 'px';
+
+        height = height + heightUnit;
+    }
+
+    var widthCssText = "";
+    var resizeWidth = ('False' == spAppIFrameSenderInfo[senderIndex][3]);
+    //if (resizeWidth) {
+    //    widthCssText = 'width:' + width + ' !important;';
+    //}
+
+    // JJK: ignore SharePoint's settings
+    resizeWidth = true;
+    widthCssText = 'width:' + width + ' !important;';
+
+
+    var cssText = widthCssText;
+    var resizeHeight = ('False' == spAppIFrameSenderInfo[senderIndex][4]);
+    //if (resizeHeight) {
+    //    cssText += 'height:' + height + ' !important';
+    //}
+
+    // JJK: ignore SharePoint's settings
+    resizeHeight = true;
+    cssText += 'height:' + height + ' !important';
+
+
+    if (cssText != "") {
+        var webPartInnermostDivId = spAppIFrameSenderInfo[senderIndex][5];
+        if (webPartInnermostDivId != "") {
+            var webPartDivId = 'WebPart' + webPartInnermostDivId;
+
+            var webPartDiv = document.getElementById(webPartDivId);
+            if (null != webPartDiv) {
+                webPartDiv.style.cssText = cssText;
+            }
+
+            cssText = "";
+            if (resizeWidth) {
+                var webPartChromeTitle = document.getElementById(webPartDivId + '_ChromeTitle');
+                if (null != webPartChromeTitle) {
+                    webPartChromeTitle.style.cssText = widthCssText;
+                }
+
+                cssText = 'width:100% !important;'
+            }
+
+            if (resizeHeight) {
+                cssText += 'height:100% !important';
+            }
+
+            var webPartInnermostDiv = document.getElementById(webPartInnermostDivId);
+            if (null != webPartInnermostDiv) {
+                webPartInnermostDiv.style.cssText = cssText;
+            }
+        }
+
+        var iframe = document.getElementById(iframeId);
+        if (null != iframe) {
+            iframe.style.cssText = cssText;
+        }
+    }
+}
+
+
 function checkBroadcastUrl(originUrl, frameUrl) {
     return true;
+
+
+
+    var parserOrigin = document.createElement('a');
+    parserOrigin.href = originUrl;
+ 
+    var parserFrame = document.createElement('a');
+    parserFrame.href = frameUrl;
+
+
+
+
+    //parser.protocol; // => "http:"
+    //parser.hostname; // => "example.com"
+    //parser.port;     // => "3000"
+    //parser.pathname; // => "/pathname/"
+    //parser.search;   // => "?search=test"
+    //parser.hash;     // => "#hash"
+    //parser.host;     // => "example.com:3000"
+
+
 }
 
 function LogPostMessage(message) {

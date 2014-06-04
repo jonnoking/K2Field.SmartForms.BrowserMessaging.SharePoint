@@ -417,11 +417,6 @@ function resizeToPageSize() {
 
 
 
-
-
-
-
-
 // This function prepares, loads, and then executes a SharePoint query to get the current users information
 function getUserName() {
     context.load(user);

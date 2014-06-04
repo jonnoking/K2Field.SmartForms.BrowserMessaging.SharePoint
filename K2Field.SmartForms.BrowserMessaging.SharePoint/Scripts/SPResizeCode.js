@@ -1,4 +1,6 @@
-﻿//var spAppIFrameSenderInfo = new Array(1);
+﻿// now in embeddDirectlyinSPpage.js
+
+//var spAppIFrameSenderInfo = new Array(1);
 var K2_SPAppIFramePostMsgHandler = function (e) {
     if (e.data.length > 100)
         return;
@@ -44,15 +46,25 @@ var K2_SPAppIFramePostMsgHandler = function (e) {
 
     var widthCssText = "";
     var resizeWidth = ('False' == spAppIFrameSenderInfo[senderIndex][3]);
-    if (resizeWidth) {
-        widthCssText = 'width:' + width + ' !important;';
-    }
+    //if (resizeWidth) {
+    //    widthCssText = 'width:' + width + ' !important;';
+    //}
+
+    // JJK: ignore SharePoint's settings
+    resizeWidth = true;
+    widthCssText = 'width:' + width + ' !important;';
+
 
     var cssText = widthCssText;
     var resizeHeight = ('False' == spAppIFrameSenderInfo[senderIndex][4]);
-    if (resizeHeight) {
-        cssText += 'height:' + height + ' !important';
-    }
+    //if (resizeHeight) {
+    //    cssText += 'height:' + height + ' !important';
+    //}
+
+    // JJK: ignore SharePoint's settings
+    resizeHeight = true;
+    cssText += 'height:' + height + ' !important';
+
 
     if (cssText != "") {
         var webPartInnermostDivId = spAppIFrameSenderInfo[senderIndex][5];
